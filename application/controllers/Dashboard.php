@@ -29,6 +29,7 @@ class Dashboard extends CI_Controller {
 		
 		$this->load->view('common/open');
 		$this->load->view('dashboard',$data);
+		$this->load->view('common/scripts');
 		$this->load->view('common/close');
 	}
 }
