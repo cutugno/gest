@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+define ('CUSTOMLOG', 'gest_log');
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

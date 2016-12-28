@@ -18,10 +18,17 @@ class Dashboard extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
+	public function index()	{
+		
+		$azioni=$this->azioni_model->getAzioni();
+		foreach ($azioni as $key=>$val) {
+			if ($val->date_create!=NULL) $azioni[$key]->date_create=convertDateTime($val->date_create);
+			if ($val->date_edit!=NULL) $azioni[$key]->date_edit=convertDateTime($val->date_edit);
+		}		
+		$data['azioni']=$azioni;
+		
 		$this->load->view('common/open');
-		$this->load->view('dashboard');
+		$this->load->view('dashboard',$data);
 		$this->load->view('common/close');
 	}
 }
