@@ -28,7 +28,7 @@ class Dashboard extends CI_Controller {
 		$data['azioni']=$azioni;
 		
 		$this->load->view('common/open');
-		$this->load->view('dashboard',$data);
+		$this->load->view('azioni',$data);
 		$this->load->view('common/scripts');
 		$this->load->view('common/close');
 	}

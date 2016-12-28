@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row">
 		<div class="col-xs-12">
 			<h3>Elenco azioni</h3>
-			<table class="table table-condensed table-hover">
+			<table id="azioni_table" class="table table-condensed table-hover">
 				<thead>
 						<tr>
 								<th>Descrizione</th>
