@@ -6,13 +6,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row">
 		<div class="col-xs-12">
 			<h3>Elenco azioni</h3>
-			<table id="azioni_table" class="table table-condensed table-hover">
+			<table id="azioni_table" class="table table-condensed table-hover tablesorter">
 				<thead>
 						<tr>
 								<th>Descrizione</th>
-								<th>Creato il</th>
-								<th>Ultima modifica</th>
-								<th></th>
+								<th class="filter-false">Creato il</th>
+								<th class="filter-false">Ultima modifica</th>
+								<th class="filter-false"><span class="noorder"></span></th>
 						</tr>
 				</thead>
 				<tbody>
