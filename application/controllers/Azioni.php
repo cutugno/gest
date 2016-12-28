@@ -21,10 +21,12 @@ class Azioni extends CI_Controller {
 	 
 	public function index()	{
 		
+		$this->output->enable_profiler(FALSE);
+		
 		$azioni=$this->azioni_model->getAzioni();
 		foreach ($azioni as $key=>$val) {
-			if ($val->date_create!=NULL) $azioni[$key]->date_create=convertDateTime($val->date_create);
-			if ($val->date_edit!=NULL) $azioni[$key]->date_edit=convertDateTime($val->date_edit);
+			$azioni[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create) : "-";
+			$azioni[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit) : "-";
 		}		
 		$data['azioni']=$azioni;
 		
@@ -56,6 +58,7 @@ class Azioni extends CI_Controller {
 		if (trim($post['c_descr'])=="") {
 			//$this->form_validation->set_message('required_azione', 'Campo {field} obbligatorio.');
 			custom_log('Errore inserimento azione, descrizione non inserita. Dati: '.json_encode($post));
+			$this->session->set_flashdata('nodescr',1);
 			return FALSE;
 		}else{
 			return TRUE;

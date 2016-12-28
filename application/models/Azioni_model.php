@@ -19,7 +19,8 @@
 		}
 		
 		public function getAzioni() {
-			$query=$this->db->get('azioni');
+			$query=$this->db->order_by('descr','ASC')
+							->get('azioni');
 			return $query->result();
 		}
 		
