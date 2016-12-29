@@ -14,13 +14,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php 
 							$attr = array('id' => 'form_dettagliazione');
 							echo form_open('#', $attr);
-							echo form_hidden('a_id', $azione->id);
+							echo form_hidden('id', $azione->id);
 						?>	
 						<div class="form-group">
 							<label for="a_descr">Descrizione</label>
 							<?php
 								$data = array(
-										'name'          => 'a_descr',
+										'name'          => 'descrizione',
 										'id'            => 'a_descr',
 										'class'			=> 'form-control',
 										'value'	=> isset($azione->descrizione) ? $azione->descrizione : set_value('a_descr')
@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label for="a_active">
 							<?php
 								$data = array(
-										'name'          => 'a_active',
+										'name'          => 'active',
 										'id'            => 'a_active',
 										'value'			=> '1',
 										'checked'       => $azione->active
@@ -43,8 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<strong>Attiva</strong>
 							</label>
 						</div>	
-						<label>Creata il: </label> <?php echo $azione->date_create; ?><br />	
-						<label>Ultima modifica: </label> <?php echo $azione->date_edit; ?><br />	
+						<label>Creata il: </label> <span id="a_date_create"><?php echo $azione->date_create; ?></span><br />	
+						<label>Ultima modifica: </label> <span id="a_date_edit"><?php echo $azione->date_edit; ?></span><br />	
 						<?php
 							$data = array(
 									'type'          => 'button',
@@ -97,9 +97,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td>
 											<?php
 												$data = array(
-														'name'          => 'campo_descr[]',
+														'name'          => 'campo_descrizione[]',
 														'class'			=> 'form-control',
-														'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descr')
+														'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descrizione[]')
 												);
 												echo form_input($data);				
 											?>

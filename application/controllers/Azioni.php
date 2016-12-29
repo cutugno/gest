@@ -24,8 +24,8 @@ class Azioni extends CI_Controller {
 		
 		$azioni=$this->azioni_model->getAzioni();
 		foreach ($azioni as $key=>$val) {
-			$azioni[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create) : "-";
-			$azioni[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit) : "-";
+			$azioni[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create,0) : "-";
+			$azioni[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit,0) : "-";
 		}		
 		$data['azioni']=$azioni;
 		
@@ -94,8 +94,8 @@ class Azioni extends CI_Controller {
 		
 		// dettagli azione
 		$azione=$this->azioni_model->getAzioneByID($id_azione);
-		$azione->date_create=($azione->date_create!=NULL) ? convertDateTime($azione->date_create) : "-";
-		$azione->date_edit=($azione->date_edit!=NULL) ? convertDateTime($azione->date_edit) : "-";		
+		$azione->date_create=($azione->date_create!=NULL) ? convertDateTime($azione->date_create,0) : "-";
+		$azione->date_edit=($azione->date_edit!=NULL) ? convertDateTime($azione->date_edit,0) : "-";		
 		
 		// elenco campi 
 		$campi=$this->campi_model->getAzioneCampi($id_azione);
@@ -111,8 +111,8 @@ class Azioni extends CI_Controller {
 
 		if ($campi) {
 			foreach ($campi as $key=>$val) {
-				$campi[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create) : "-";
-				$campi[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit) : "-";
+				$campi[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create,0) : "-";
+				$campi[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit,0) : "-";
 				$campi[$key]->nome=$val->cognome.", ".$val->nome;
 				unset($campi[$key]->cognome);
 				$campi[$key]->id_editor=$val->editabile;
@@ -137,14 +137,36 @@ class Azioni extends CI_Controller {
 	
 	public function update() {
 		if (!$this->input->post()) exit();		
+	
+		if (($this->required_edited_descr()) && ($this->duplicate_edited_descr())) {
+			$post=$this->input->post();
+			if (!isset($post['active'])) $post['active']=0;
+			// update
+			if ($this->azioni_model->updateAzione($post)) {
+				custom_log('Azione modificata correttamente. Dati: '.json_encode($post));
+				$azione=$this->azioni_model->getAzioneByID($post['id']);
+				$azione->date_create=($azione->date_create!=NULL) ? convertDateTime($azione->date_create,0) : "-";
+				$azione->date_edit=($azione->date_edit!=NULL) ? convertDateTime($azione->date_edit,0) : "-";	
+				$azione->active=($azione->active==1) ? TRUE : FALSE;	
+				$echo=array("type"=>"success","msg"=>"Azione modificata correttamente","azione"=>$azione);
+			}else{
+				custom_log('Errore modifica azione. Dati: '.json_encode($post));	
+				$echo=array("type"=>"error","msg"=>"Errore modifica azione");	
+			}		
+		}else{
+			$echo=array("type"=>"warning","msg"=>$this->session->noediteddescr.$this->session->duplediteddescr);
+			unset($_SESSION['noediteddescr'],$_SESSION['duplediteddescr']);
+		}
 		
-		if (!$this->required_descr()) echo "no descr";
+		echo json_encode($echo);
+			
 	}
 	
 	// ------------------- funzioni validazione ------------------------
 	
 	public function required_descr() {
-		$post=$this->input->post();
+		$post=$this->input->post();	
+		
 		if (trim($post['descrizione'])=="") {
 			custom_log('Errore inserimento azione, descrizione non inserita. Dati: '.json_encode($post));
 			$this->session->set_flashdata('nodescr','Descrizione non inserita. ');
@@ -158,10 +180,34 @@ class Azioni extends CI_Controller {
 		$post=$this->input->post();
 		if ($this->azioni_model->getAzioneByDescr($post['descrizione'])) {
 			custom_log('Errore inserimento azione, descrizione duplicata. Dati: '.json_encode($post));
-			$this->session->set_flashdata('dupldescr','Descrizione duplicata.');
+			$this->session->set_flashdata('dupldescr','Descrizione esistente.');
 			return FALSE;
 		}else{
 			return TRUE;
 		}
+	}
+	
+	public function required_edited_descr() {
+		$post=$this->input->post();	
+		
+		if (trim($post['descrizione'])=="") {
+			custom_log('Errore modifica azione, descrizione non inserita. Dati: '.json_encode($post));
+			$this->session->set_flashdata('noediteddescr','Descrizione non inserita. ');
+			return FALSE;
+		}else{
+			return TRUE;
+		}
+	}
+	
+	public function duplicate_edited_descr() {
+		$post=$this->input->post();
+		if ($descr_simile=$this->azioni_model->getAzioneByDescr($post['descrizione'])) {
+			if ($descr_simile->id != $post['id']) {
+				custom_log('Errore modifica azione, nuova descrizione azione duplicata. Dati: '.json_encode($post));
+				$this->session->set_flashdata('duplediteddescr','Descrizione esistente.');
+				return FALSE;
+			}
+		}
+		return TRUE;
 	}
 }

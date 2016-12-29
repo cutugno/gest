@@ -13,6 +13,15 @@
 			return $this->db->insert_id();
 		}
 		
+		public function updateAzione($dati) {
+			$query=$this->db->set('descrizione', $dati['descrizione'])
+							->set('active', $dati['active'])
+							->set('date_edit', 'NOW()', FALSE)
+							->where('id',$dati['id'])
+							->update('azioni');
+			return $query;		
+		}
+		
 		public function getAzioneByDescr($descr) {
 			$query=$this->db->get_where('azioni',array("descrizione"=>$descr));
 			return $query->row();
