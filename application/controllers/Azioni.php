@@ -159,7 +159,6 @@ class Azioni extends CI_Controller {
 		}
 		
 		echo json_encode($echo);
-			
 	}
 	
 	// ------------------- funzioni validazione ------------------------

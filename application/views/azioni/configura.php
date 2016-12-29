@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="panel-heading">
 						CAMPI AZIONE
 						<div class="pull-right">
-							<button type="button" class="btn btn-info btn-xs dropdown-toggle"><i class="fa fa-plus-circle"></i> Aggiungi campo</button>
+							<button type="button" class="btn btn-info btn-xs" id="aggiungi_campo"><i class="fa fa-plus-circle"></i> Aggiungi campo</button>
 						</div>
 					</div>
 					<!-- /.panel-heading -->
@@ -116,17 +116,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												echo form_checkbox($data);	
 											?>
 										</td>                      
-										<td id="<?php echo $campo->editabile; ?>">
+										<td>
 											<?php 
-											$attr="class=\"a_avvocato form-control\" data-idavv=\"".$campo->editabile."\" style=\"width:350px; display:".$campo->display_editabile."\"";
-											echo form_dropdown('a_avvocato',$selectavvocati,$campo->editabile,$attr); 
-										?>
+												$attr="class=\"a_avvocato form-control\" data-idavv=\"".$campo->editabile."\" style=\"width:350px; display:".$campo->display_editabile."\"";
+												echo form_dropdown('a_avvocato',$selectavvocati,$campo->editabile,$attr); 
+											?>
 										</td>  
 										<td class="text-center">
 											<?php
 												$data = array(
 														'type'          => 'button',
-														'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> AGGIORNA CAMPO',
+														'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> SALVA CAMPO',
 														'class'			=> 'btn btn-success aggiorna_campo',
 														'data-idcampo'	=> $campo->id
 												);
