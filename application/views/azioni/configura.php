@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<?php
 												$data = array(
 														'name'          => 'campo_descrizione[]',
-														'class'			=> 'form-control',
+														'class'			=> 'form-control input-sm',
 														'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descrizione[]')
 												);
 												echo form_input($data);				
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												$data = array(
 														'type'          => 'button',
 														'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> SALVA CAMPO',
-														'class'			=> 'btn btn-success aggiorna_campo',
+														'class'			=> 'btn btn-success btn-sm aggiorna_campo',
 														'data-idcampo'	=> $campo->id
 												);
 												echo form_button($data);	
@@ -137,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												$data = array(
 														'type'          => 'button',
 														'content'       => '<i class="fa fa-trash-o" aria-hidden="true"></i> ELIMINA CAMPO',
-														'class'			=> 'btn btn-danger elimina_campo',
+														'class'			=> 'btn btn-danger btn-sm elimina_campo',
 														'data-idcampo'	=> $campo->id
 												);
 												echo form_button($data);	
