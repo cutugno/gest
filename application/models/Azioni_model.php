@@ -7,19 +7,24 @@
 		}
 		
 		public function createAzione($dati) {
-			$query=$this->db->set('descr', $dati['c_descr'])
+			$query=$this->db->set('descrizione', $dati['descrizione'])
 							->set('date_create', 'NOW()', FALSE)
 							->insert('azioni');
 			return $this->db->insert_id();
 		}
 		
 		public function getAzioneByDescr($descr) {
-			$query=$this->db->get_where('azioni',array("descr"=>$descr));
+			$query=$this->db->get_where('azioni',array("descrizione"=>$descr));
+			return $query->row();
+		}
+		
+		public function getAzioneByID($id) {
+			$query=$this->db->get_where('azioni',array("id"=>$id));
 			return $query->row();
 		}
 		
 		public function getAzioni() {
-			$query=$this->db->order_by('descr','ASC')
+			$query=$this->db->order_by('descrizione','ASC')
 							->get('azioni');
 			return $query->result();
 		}

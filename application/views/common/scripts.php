@@ -10,4 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo site_url('assets/js/jquery.tablesorter.pager.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/jquery.tablesorter.widgets.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/tablesorter-parser-input-select.js'); ?>"></script>
-
+<script type="text/javascript" src="<?php echo site_url('assets/js/sweetalert2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('vendor/metisMenu/metisMenu.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('vendor/datatables/js/jquery.dataTables.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('vendor/datatables-plugins/dataTables.bootstrap.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('vendor/datatables-responsive/dataTables.responsive.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('assets/js/sb-admin-2.min.js'); ?>"></script>
