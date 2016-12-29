@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div id="page-wrapper">
 		<!-- /.row -->
-		<div class="row" style="margin-top:30px">
+		<div class="row" style="padding-top:30px">
 			<div class="col-lg-3 col-md-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading">

@@ -20,7 +20,7 @@ class Azioni extends CI_Controller {
 	 */
 	 
 	public function index()	{
-		$this->output->enable_profiler(FALSE);
+		$this->output->enable_profiler(TRUE);
 		
 		$azioni=$this->azioni_model->getAzioni();
 		foreach ($azioni as $key=>$val) {
@@ -79,7 +79,7 @@ class Azioni extends CI_Controller {
 		if ($ins_id=$this->azioni_model->createAzione($post)) {
 			custom_log('Azione inserita con id '.$ins_id.'. Dati: '.json_encode($post));
 			$this->session->set_flashdata('insazione',1);
-			redirect ('azioni/campi/'.$ins_id);
+			redirect ('azioni/configura/'.$ins_id);
 		}else{
 			custom_log('Errore inserimento azione. Dati: '.json_encode($post));
 			$this->session->set_flashdata('noinsazione',1);
@@ -87,8 +87,10 @@ class Azioni extends CI_Controller {
 		}
 	}
 	
-	public function campi($id_azione) {
+	public function configura($id_azione) {
 		if (!$id_azione) show_404();
+		
+		$this->output->enable_profiler(TRUE);
 		
 		// dettagli azione
 		$azione=$this->azioni_model->getAzioneByID($id_azione);
@@ -124,10 +126,10 @@ class Azioni extends CI_Controller {
 		
 		$this->load->view('common/open');
 		$this->load->view('common/navigation');
-		$this->load->view('azioni/campi',$data);
+		$this->load->view('azioni/configura',$data);
 		$this->load->view('common/scripts');
 		$this->load->view('azioni/swal');
-		$this->load->view('azioni/campi_scripts');
+		$this->load->view('azioni/configura_scripts');
 		$this->load->view('common/close');
 	}
 	

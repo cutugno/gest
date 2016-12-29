@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 	<div id="page-wrapper">           
-		<div class="row" style="margin-top: 30px">
+		<div class="row" style="padding-top: 30px">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -26,26 +26,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td><?php echo $azione->descrizione; ?></td>                      
 										<td><?php echo $azione->date_create; ?></td>                      
 										<td><?php echo $azione->date_edit; ?></td>  
-										<td class="text-center"><a href="<?php echo site_url('azioni/campi/'.$azione->id); ?>">
+										<td class="text-center"><a href="<?php echo site_url('azioni/configura/'.$azione->id); ?>">
 											<?php
 												$data = array(
 														'type'          => 'button',
-														'content'       => '<i class="fa fa-search" aria-hidden="true"></i> DETTAGLI CAMPI',
-														'class'			=> 'btn btn-info btn-xs'
+														'content'       => '<i class="fa fa-wrench" aria-hidden="true"></i> CONFIGURA',
+														'class'			=> 'btn btn-info btn-sm'
 												);
 												echo form_button($data);	
 											?>	
-											</a>									
+											</a>	
+											
+											<?php if ($azione->campi > 0) : ?>								
 											<a href="<?php echo site_url('azioni/record/'.$azione->id); ?>">
 											<?php
 												$data = array(
 														'type'          => 'button',
-														'content'       => '<i class="fa fa-trash-o" aria-hidden="true"></i> DETTAGLI RECORD',
-														'class'			=> 'btn btn-warning btn-xs'
+														'content'       => '<i class="fa fa-database" aria-hidden="true"></i> RECORD',
+														'class'			=> 'btn btn-warning btn-sm'
 												);
 												echo form_button($data);	
 											?>	
-											</a>									
+											</a>
+											<?php endif ?>	
+																			
 										</td>                    
 								</tr>
 								<?php endforeach; ?>                             

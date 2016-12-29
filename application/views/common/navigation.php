@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href="<?php echo base_url(); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Azioni<span class="fa arrow"></span></a>
+						<a href="#"><i class="fa fa-briefcase fa-fw"></i> Azioni<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li>
 								<a href="<?php echo site_url('azioni/nuova'); ?>">Nuova azione</a>
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!-- /.nav-second-level -->
 					</li>					
 					<li>
-						<a href="#"><i class="fa fa-wrench fa-fw"></i> Avvocati<span class="fa arrow"></span></a>
+						<a href="#"><i class="fa fa-id-card-o fa-fw"></i> Avvocati<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li>
 								<a href="#">Nuovo avvocato</a>

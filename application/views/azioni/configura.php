@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 	<div id="page-wrapper">           
-		<div class="row" style="margin-top: 30px">
+		<div class="row" style="padding-top: 30px">
 			<div class="col-lg-6">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -48,8 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php
 							$data = array(
 									'type'          => 'button',
-									'content'       => '<i class="fa fa-floppy-o" aria-hidden="true"></i> AGGIORNA DETTAGLI',
-									'class'			=> 'btn btn-primary',
+									'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> AGGIORNA DETTAGLI',
+									'class'			=> 'btn btn-success',
 									'id'			=> 'update_dettagli_azione'
 							);
 							echo form_button($data);				
@@ -61,6 +61,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<!-- /.panel -->
 			</div>
 			<!-- /.col-lg-6 -->
+			<div class="col-lg-6 text-right">
+				<a href="<?php echo site_url('azioni'); ?>"><button class="btn btn-default"><i class="fa fa-th-list"></i> Elenco azioni</button></a>
+			</div>
+			<!-- /.col-lg-6 -->
 		</div>
 		<!-- /.row -->
 	   <div class="row">
@@ -69,18 +73,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="panel-heading">
 						CAMPI AZIONE
 						<div class="pull-right">
-							<button type="button" class="btn btn-primary btn-xs dropdown-toggle"><i class="fa fa-plus-circle"></i> Aggiungi campo</button>
+							<button type="button" class="btn btn-info btn-xs dropdown-toggle"><i class="fa fa-plus-circle"></i> Aggiungi campo</button>
 						</div>
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
-						<table width="100%" class="table table-striped table-bordered table-hover" id="table_campi">
+						<table width="100%" class="table table-striped table-hover table-bordered" id="table_campi">
 							<thead>
 								<tr>
 									<th>Descrizione</th>
 									<th>Editabile</th>
 									<th style="width:370px">Avvocato</th>
-									<th>aggiorna | elimina</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -122,8 +126,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<?php
 												$data = array(
 														'type'          => 'button',
-														'content'       => '<i class="fa fa-search" aria-hidden="true"></i> AGGIORNA CAMPO',
-														'class'			=> 'btn btn-info btn-xs aggiorna_campo',
+														'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> AGGIORNA CAMPO',
+														'class'			=> 'btn btn-success aggiorna_campo',
 														'data-idcampo'	=> $campo->id
 												);
 												echo form_button($data);	
@@ -133,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												$data = array(
 														'type'          => 'button',
 														'content'       => '<i class="fa fa-trash-o" aria-hidden="true"></i> ELIMINA CAMPO',
-														'class'			=> 'btn btn-warning btn-xs elimina_campo',
+														'class'			=> 'btn btn-danger elimina_campo',
 														'data-idcampo'	=> $campo->id
 												);
 												echo form_button($data);	

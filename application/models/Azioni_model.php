@@ -24,7 +24,12 @@
 		}
 		
 		public function getAzioni() {
-			$query=$this->db->order_by('descrizione','ASC')
+			$subquery=$this->db->select('count(*)')
+							   ->where('id_azioni=azioni.id')
+							   ->get_compiled_select('campi');
+			$query=$this->db->select('azioni.*')
+							->select('('.$subquery.') as campi')
+							->order_by('descrizione','ASC')
 							->get('azioni');
 			return $query->result();
 		}

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 	<div id="page-wrapper">           
-		<div class="row" style="margin-top: 30px">
+		<div class="row" style="padding-top: 30px">
 			<div class="col-lg-6">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -53,8 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="panel-body">
 						<?php 
 							$attr = array('id' => 'form_importaazione');
-							echo form_open_multipart('azioni/import', $attr);
-							echo form_hidden('form_name','importaazionee');
+							echo form_open_multipart('azioni/nuova', $attr);
+							echo form_hidden('form_name','importaazione');
 						?>	
 						<div class="form-group">
 							<label for="i_descr">Descrizione</label>
@@ -73,8 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php
 								$data = array(
 										'name'          => 'i_csv',
-										'id'            => 'i_csv',
-										'class'			=> 'form-control'
+										'id'            => 'i_csv'
 								);
 								echo form_upload($data);		
 							?>
