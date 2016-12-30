@@ -138,7 +138,7 @@ class Azioni extends CI_Controller {
 	public function update_azione() {
 		if (!$this->input->post()) exit();		
 	
-		if (($this->required_edited_descr()) && ($this->duplicate_edited_descr())) {
+		if (($this->required_descr()) && ($this->duplicate_edited_descr())) {
 			$post=$this->input->post();
 			if (!isset($post['active'])) $post['active']=0;
 			
@@ -155,8 +155,8 @@ class Azioni extends CI_Controller {
 				$echo=array("type"=>"error","msg"=>"Errore modifica azione");	
 			}		
 		}else{
-			$echo=array("type"=>"warning","msg"=>$this->session->noediteddescr.$this->session->duplediteddescr);
-			unset($_SESSION['noediteddescr'],$_SESSION['duplediteddescr']);
+			$echo=array("type"=>"warning","msg"=>$this->session->nodescr.$this->session->duplediteddescr);
+			unset($_SESSION['nodescr'],$_SESSION['duplediteddescr']);
 		}
 		
 		echo json_encode($echo);
@@ -252,7 +252,7 @@ class Azioni extends CI_Controller {
 		$post=$this->input->post();	
 		
 		if (trim($post['descrizione'])=="") {
-			custom_log('Errore inserimento azione, descrizione non inserita. Dati: '.json_encode($post));
+			custom_log('Errore descrizione non inserita. Dati: '.json_encode($post));
 			$this->session->set_flashdata('nodescr','Descrizione non inserita. ');
 			return FALSE;
 		}else{
@@ -263,31 +263,19 @@ class Azioni extends CI_Controller {
 	public function duplicate_descr() {
 		$post=$this->input->post();
 		if ($this->azioni_model->getAzioneByDescr($post['descrizione'])) {
-			custom_log('Errore inserimento azione, descrizione duplicata. Dati: '.json_encode($post));
+			custom_log('Errore inserimento descrizione duplicata. Dati: '.json_encode($post));
 			$this->session->set_flashdata('dupldescr','Descrizione esistente.');
 			return FALSE;
 		}else{
 			return TRUE;
 		}
 	}
-	
-	public function required_edited_descr() {
-		$post=$this->input->post();	
 		
-		if (trim($post['descrizione'])=="") {
-			custom_log('Errore aggiornamento azione, descrizione non inserita. Dati: '.json_encode($post));
-			$this->session->set_flashdata('noediteddescr','Descrizione non inserita. ');
-			return FALSE;
-		}else{
-			return TRUE;
-		}
-	}
-	
 	public function duplicate_edited_descr() {
 		$post=$this->input->post();
 		if ($descr_simile=$this->azioni_model->getAzioneByDescr($post['descrizione'])) {
 			if ($descr_simile->id != $post['id']) {
-				custom_log('Errore aggiornamento azione, nuova descrizione azione duplicata. Dati: '.json_encode($post));
+				custom_log('Errore aggiornamento descrizione duplicata. Dati: '.json_encode($post));
 				$this->session->set_flashdata('duplediteddescr','Descrizione esistente. ');
 				return FALSE;
 			}
