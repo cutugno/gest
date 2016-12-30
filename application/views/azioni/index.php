@@ -17,6 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>Descrizione</th>
 									<th>Creato il</th>
 									<th>Ultima modifica</th>
+									<th class="text-center">Attiva</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -26,6 +27,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td><?php echo $azione->descrizione; ?></td>                      
 										<td><?php echo $azione->date_create; ?></td>                      
 										<td><?php echo $azione->date_edit; ?></td>  
+										<td class="text-center">
+											<i class="fa fa-2x fa-circle text-<?php echo $azione->active==1 ? "success" : "danger"; ?>"></i>
+										</td>
 										<td class="text-center"><a href="<?php echo site_url('azioni/configura/'.$azione->id); ?>">
 											<?php
 												$data = array(

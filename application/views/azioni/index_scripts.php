@@ -7,11 +7,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $('#table_azioni').DataTable({
 			"language": {
 				"info": "Visualizzati _START_-_END_ di _TOTAL_ risultati",
-				"infoEmpty": "Nessun risultato da visualizzare",
+				"infoEmpty": "Nessun risultato disponibile",
 				"infoFiltered": " (filtrando da _MAX_ risultati)",
 				"lengthMenu": "Visualizza _MENU_ risultati",
 				"search": "Filtra risultati per:",
 				"emptyTable": "Nessun risultato",
+				"zeroRecords": "Nessun risultato disponibile",
 				"paginate": {
 					"first": "Prima pagina",
 					"last": "Ultima pagina",
@@ -24,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				null,
 				null,
 				null,
+				{ "orderable": false },
 				{ "orderable": false }
 			]
         });
