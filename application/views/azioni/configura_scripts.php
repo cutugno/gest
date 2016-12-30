@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		var questo=$(this);
 		var id_campo=questo.attr("data-idcampo");		
 		var id_azione=questo.parent().parent().children("input[name='id_azione']").val();
-		var descrizione=questo.parent().parent().children("td[name='descrizione']").children("input").val();
+		var descrizione=encodeURIComponent(questo.parent().parent().children("td[name='descrizione']").children("input").val());
 		var active=questo.parent().parent().children("td[name='active']").children("input:checked").val();
 		var id_avvocato=questo.parent().parent().children("td[name='avvocato']").children("select").val();
 		id_avvocato = (typeof active=="undefined") ? 0 : id_avvocato;
