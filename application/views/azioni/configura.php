@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</td>                      
 										<td>
 											<?php 
-												$attr="class=\"a_avvocato form-control\" data-idavv=\"".$campo->editabile."\" style=\"width:350px; display:".$campo->display_editabile."\"";
+												$attr="class=\"a_avvocato form-control input-sm\" data-idavv=\"".$campo->editabile."\" style=\"width:350px; display:".$campo->display_editabile."\"";
 												echo form_dropdown('a_avvocato',$selectavvocati,$campo->editabile,$attr); 
 											?>
 										</td>  

@@ -148,9 +148,9 @@ class Azioni extends CI_Controller {
 				$azione->date_create=($azione->date_create!=NULL) ? convertDateTime($azione->date_create,0) : "-";
 				$azione->date_edit=($azione->date_edit!=NULL) ? convertDateTime($azione->date_edit,0) : "-";	
 				$azione->active=($azione->active==1) ? TRUE : FALSE;	
-				$echo=array("type"=>"success","msg"=>"Azione modificata correttamente","azione"=>$azione);
+				$echo=array("type"=>"success","msg"=>"Azione aggiornata correttamente","azione"=>$azione);
 			}else{
-				custom_log('Errore modifica azione. Dati: '.json_encode($post));	
+				custom_log('Errore aggiornamento azione. Dati: '.json_encode($post));	
 				$echo=array("type"=>"error","msg"=>"Errore modifica azione");	
 			}		
 		}else{
@@ -190,7 +190,7 @@ class Azioni extends CI_Controller {
 		$post=$this->input->post();	
 		
 		if (trim($post['descrizione'])=="") {
-			custom_log('Errore modifica azione, descrizione non inserita. Dati: '.json_encode($post));
+			custom_log('Errore aggiornamento azione, descrizione non inserita. Dati: '.json_encode($post));
 			$this->session->set_flashdata('noediteddescr','Descrizione non inserita. ');
 			return FALSE;
 		}else{
@@ -202,7 +202,7 @@ class Azioni extends CI_Controller {
 		$post=$this->input->post();
 		if ($descr_simile=$this->azioni_model->getAzioneByDescr($post['descrizione'])) {
 			if ($descr_simile->id != $post['id']) {
-				custom_log('Errore modifica azione, nuova descrizione azione duplicata. Dati: '.json_encode($post));
+				custom_log('Errore aggiornamento azione, nuova descrizione azione duplicata. Dati: '.json_encode($post));
 				$this->session->set_flashdata('duplediteddescr','Descrizione esistente.');
 				return FALSE;
 			}
