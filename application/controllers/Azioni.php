@@ -115,7 +115,7 @@ class Azioni extends CI_Controller {
 				$campi[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit,0) : "-";
 				$campi[$key]->nome=$val->cognome.", ".$val->nome;
 				unset($campi[$key]->cognome);
-				$campi[$key]->id_editor=$val->editabile;
+				$campi[$key]->id_avvocato=$val->editabile;
 				$campi[$key]->editabile=($val->editabile==0) ? 0 : 1 ;
 				$campi[$key]->display_editabile=($val->editabile==0) ? "none" : "visible" ;
 			}
@@ -135,12 +135,13 @@ class Azioni extends CI_Controller {
 	
 	// ------------------- chiamate REST -------------------------------
 	
-	public function update() {
+	public function update_azione() {
 		if (!$this->input->post()) exit();		
 	
 		if (($this->required_edited_descr()) && ($this->duplicate_edited_descr())) {
 			$post=$this->input->post();
 			if (!isset($post['active'])) $post['active']=0;
+			
 			// update
 			if ($this->azioni_model->updateAzione($post)) {
 				custom_log('Azione modificata correttamente. Dati: '.json_encode($post));
@@ -159,6 +160,64 @@ class Azioni extends CI_Controller {
 		}
 		
 		echo json_encode($echo);
+	}
+	
+	public function delete_campo() {
+		if (!$this->input->post()) exit();	
+		$post=$this->input->post();
+		
+		if ($this->esiste_campo()) {
+			if ($this->campi_model->deleteCampo($post['id_campo'])) {
+				custom_log('Campo con id '.$post['id_campo'].' cancellato.');
+				$echo=array("type"=>"success","msg"=>"Campo cancellato correttamente");				
+			}else{
+				custom_log('Errore cancellazione campo. Dati: '.json_encode($post));	
+				$echo=array("type"=>"error","msg"=>"Errore cancellazione campo");	
+			}
+		}else{
+			$echo=array("type"=>"warning","msg"=>$this->session->noesistecampo);
+			unset($_SESSION['noesistecampo']);
+		}
+		
+		echo json_encode($echo);			
+	}
+	
+	public function update_campo() {
+		if (!$this->input->post()) exit();	
+		$post=$this->input->post();
+		
+		if ($this->esiste_campo()) {
+			if (!$this->required_descr()) {
+				$echo=array("type"=>"warning","msg"=>$this->session->nodescr);
+				unset($_SESSION['nodescr']);
+			}else{
+				if ($post['id_avvocato']!=0) {
+					if (!$this->esiste_avvocato()) {
+						$echo=array("type"=>"warning","msg"=>$this->session->noesisteavvocato);
+						unset($_SESSION['noesisteavvocato']);
+					}										
+				}
+				$post['editabile']=$post['id_avvocato'];
+				if ($this->campi_model->updateCampo($post)) {
+					custom_log('Campo con id '.$post['id_campo'].' aggiornato. Dati: '.json_encode($post));
+					$echo=array("type"=>"success","msg"=>"Campo aggiornato correttamente");	
+				}else{
+					custom_log('Errore aggiornamento campo. Dati: '.json_encode($post));	
+					$echo=array("type"=>"error","msg"=>"Errore aggiornamento campo");	
+				}
+			}
+		}else{
+			$echo=array("type"=>"warning","msg"=>$this->session->noesistecampo);
+			unset($_SESSION['noesistecampo']);
+		}	
+		
+		echo json_encode($echo);	
+	}
+	
+	public function save_campo() {
+		if (!$this->input->post()) exit();	
+		$post=$this->input->post();
+		
 	}
 	
 	// ------------------- funzioni validazione ------------------------
@@ -203,9 +262,29 @@ class Azioni extends CI_Controller {
 		if ($descr_simile=$this->azioni_model->getAzioneByDescr($post['descrizione'])) {
 			if ($descr_simile->id != $post['id']) {
 				custom_log('Errore aggiornamento azione, nuova descrizione azione duplicata. Dati: '.json_encode($post));
-				$this->session->set_flashdata('duplediteddescr','Descrizione esistente.');
+				$this->session->set_flashdata('duplediteddescr','Descrizione esistente. ');
 				return FALSE;
 			}
+		}
+		return TRUE;
+	}
+	
+	public function esiste_campo() {
+		$post=$this->input->post();
+		if (!$this->campi_model->getCampoByID($post['id_campo'])) {
+			custom_log('Errore campo inesistente. Dati: '.json_encode($post));
+			$this->session->set_flashdata('noesistecampo','Campo inesistente. ');
+			return FALSE;
+		}
+		return TRUE;
+	}
+	
+	public function esiste_avvocato() {
+		$post=$this->input->post();
+		if (!$this->avvocati_model->getAvvocatoByID($post['id_avvocato'])) {
+			custom_log('Errore avvocato inesistente. Dati: '.json_encode($post));
+			$this->session->set_flashdata('noesisteavvocato','Avvocato inesistente. ');
+			return FALSE;
 		}
 		return TRUE;
 	}

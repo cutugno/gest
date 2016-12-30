@@ -30,16 +30,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="form-group checkbox">
 							<label for="a_active">
-							<?php
-								$data = array(
-										'name'          => 'active',
-										'id'            => 'a_active',
-										'value'			=> '1',
-										'checked'       => $azione->active
-								);
+								<?php
+									$data = array(
+											'name'          => 'active',
+											'id'            => 'a_active',
+											'value'			=> '1',
+											'checked'       => $azione->active
+									);
 
-								echo form_checkbox($data);	
-							?>
+									echo form_checkbox($data);	
+								?>
 								<strong>Attiva</strong>
 							</label>
 						</div>	
@@ -89,62 +89,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</thead>
 							<tbody>
 								<?php foreach($campi as $campo) : ?>
-								<?php 
-									$attr = array('class' => 'form_dettaglicampo');
-									echo form_open('#', $attr);
-								?>	
 								<tr>
-										<td>
-											<?php
-												$data = array(
-														'name'          => 'campo_descrizione[]',
-														'class'			=> 'form-control input-sm',
-														'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descrizione[]')
-												);
-												echo form_input($data);				
-											?>
-										</td>                      
-										<td>
-											<?php
-												$data = array(
-														'name'          => 'a_active',
-														'class'            => 'a_active',
-														'value'			=> '1',
-														'checked'       => $campo->editabile
-												);
+									<?php 
+										$attr = array('class' => 'form_dettaglicampo', 'name' =>'form_dettaglicampo');
+										echo form_open('#', $attr);
+										echo form_hidden('id_azione',$azione->id);
+									?>	
+									<td name="descrizione">
+										<?php
+											$data = array(
+													'name'          => 'campo_descrizione',
+													'class'			=> 'form-control input-sm',
+													'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descrizione[]')
+											);
+											echo form_input($data);				
+										?>
+									</td>                      
+									<td name="active">
+										<?php
+											$data = array(
+													'name'          => 'a_active',
+													'class'            => 'a_active',
+													'value'			=> '1',
+													'checked'       => $campo->editabile
+											);
 
-												echo form_checkbox($data);	
-											?>
-										</td>                      
-										<td>
-											<?php 
-												$attr="class=\"a_avvocato form-control input-sm\" data-idavv=\"".$campo->editabile."\" style=\"width:350px; display:".$campo->display_editabile."\"";
-												echo form_dropdown('a_avvocato',$selectavvocati,$campo->editabile,$attr); 
-											?>
-										</td>  
-										<td class="text-center">
-											<?php
-												$data = array(
-														'type'          => 'button',
-														'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> SALVA CAMPO',
-														'class'			=> 'btn btn-success btn-sm aggiorna_campo',
-														'data-idcampo'	=> $campo->id
-												);
-												echo form_button($data);	
-											?>									
+											echo form_checkbox($data);	
+										?>
+									</td>                      
+									<td name="avvocato">
+										<?php 
+											$attr="class=\"a_avvocato form-control input-sm\" data-idavv=\"".$campo->editabile."\" style=\"width:350px; display:".$campo->display_editabile."\"";
+											echo form_dropdown('a_avvocato',$selectavvocati,$campo->id_avvocato,$attr); 
+										?>
+									</td>  
+									<td class="text-center">
+										<?php
+											$data = array(
+													'type'          => 'button',
+													'content'       => '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> AGGIORNA CAMPO',
+													'class'			=> 'btn btn-success btn-sm salva_campo',
+													'data-idcampo'	=> $campo->id
+											);
+											echo form_button($data);	
+										?>									
 
-											<?php
-												$data = array(
-														'type'          => 'button',
-														'content'       => '<i class="fa fa-trash-o" aria-hidden="true"></i> ELIMINA CAMPO',
-														'class'			=> 'btn btn-danger btn-sm elimina_campo',
-														'data-idcampo'	=> $campo->id
-												);
-												echo form_button($data);	
-											?>										
-										</td>                    
-								</tr>
-								<?php echo form_close(); ?>
+										<?php
+											$data = array(
+													'type'          => 'button',
+													'content'       => '<i class="fa fa-trash-o" aria-hidden="true"></i> CANCELLA CAMPO',
+													'class'			=> 'btn btn-danger btn-sm cancella_campo',
+													'data-idcampo'	=> $campo->id
+											);
+											echo form_button($data);	
+										?>										
+									</td>                    
+									<?php echo form_close(); ?>
+								</tr>								
 								<?php endforeach; ?>                             
 							</tbody>
 						</table>                            

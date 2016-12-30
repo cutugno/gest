@@ -12,6 +12,11 @@
 							->get('avvocati');
 			return $query->result();
 		}
+		
+		public function getAvvocatoByID($id) {
+			$query=$this->db->get_where('avvocati',array("id"=>$id));
+			return $query->row();
+		}
 			
 	}
 	

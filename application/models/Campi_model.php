@@ -14,6 +14,25 @@
 			return $query->result(); 
 		}
 		
+		public function getCampoByID($id) {
+			$query=$this->db->get_where('campi',array("id"=>$id));
+			return $query->row();
+		}
+		
+		public function deleteCampo($id) {
+			$query=$this->db->delete('campi', array('id' => $id)); 
+			return $this->db->affected_rows();
+		}
+		
+		public function updateCampo($dati) {
+			$query=$this->db->set('descrizione', $dati['descrizione'])
+							->set('editabile', $dati['editabile'])
+							->set('date_edit', 'NOW()', FALSE)
+							->where('id', $dati['id_campo'])
+							->update('campi');
+			return $query;
+		}
+		
 	}
 	
 ?>
