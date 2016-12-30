@@ -20,7 +20,7 @@ class Azioni extends CI_Controller {
 	 */
 	 
 	public function index()	{
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(FALSE);
 		
 		$azioni=$this->azioni_model->getAzioni();
 		foreach ($azioni as $key=>$val) {
@@ -90,7 +90,7 @@ class Azioni extends CI_Controller {
 	public function configura($id_azione) {
 		if (!$id_azione) show_404();
 		
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(FALSE);
 		
 		// dettagli azione
 		$azione=$this->azioni_model->getAzioneByID($id_azione);
@@ -131,6 +131,50 @@ class Azioni extends CI_Controller {
 		$this->load->view('azioni/swal');
 		$this->load->view('azioni/configura_scripts');
 		$this->load->view('common/close');
+	}
+	
+	public function record($id_azione) {
+		if (!$id_azione) show_404();
+		
+		$this->output->enable_profiler(TRUE);
+		
+		// dettagli azione
+		$azione=$this->azioni_model->getAzioneByID($id_azione);
+				
+		// elenco campi 
+		$campi=$this->campi_model->getAzioneCampi($id_azione);
+		$arraycampi=array();
+		foreach ($campi as $val) {
+			$val->record=array(); // qui andranno i record per ogni campo, vedi sotto
+			$arraycampi[$val->id]=$val;
+		}
+		//var_dump ($arraycampi);
+		
+		// elenco record
+		$record=$this->record_model->getAzioneRecord($id_azione);
+		foreach ($record as $key=>$val) {
+			$record[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create,0) : "-";
+			$record[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit,0) : "-";
+			$record[$key]->avvocato=($val->id_avvocato!=NULL) ? $val->cognome.", ".$val->nome : "";
+			// suddivido i record per ogni campo inserendoli all'interno dell'elemento ->record creato in precedenza dell'array corrispondente di $campi
+			array_push($arraycampi[$val->id_campi]->record,$val); 
+		}
+		
+		
+		
+
+		$data['azione']=$azione;
+		$data['campi']=$arraycampi;
+		$data['record']=$record;
+		
+		$this->load->view('common/open');
+		$this->load->view('common/navigation');
+		$this->load->view('azioni/record',$data);
+		$this->load->view('common/scripts');
+		$this->load->view('azioni/swal');
+		//$this->load->view('azioni/configura_scripts');
+		$this->load->view('common/close');
+		
 	}
 	
 	// ------------------- chiamate REST -------------------------------
