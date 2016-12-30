@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$("#aggiungi_campo").click(function() {
 		// genero <tr> nuovo campo da appendere a tabella
 		var open="<tr><form action='http://gest.pc/#' class='form_dettaglicampo' name='form_dettaglicampo' method='post' accept-charset='utf-8'>";					
-		var nuovo_campo="<input type='hidden' name='id_azione' value='"+id_azione+"'><td name='descrizione'><input type='text' name='campo_descrizione' value='' class='form-control input-sm' /></td><td name='active'><input type='checkbox' name='a_active' value='1' class='a_active' /></td><td name='avvocato'><select name='a_avvocato' class='a_avvocato form-control input-sm' data-idavv='' style='width:350px; display:none'>{options}</select></td><td class='text-center'><button type='button' class='btn btn-success btn-sm salva_campo' data-idcampo='' style='margin: 0 4px 0 -1px;' ><i class='fa fa-pencil-square-o' aria-hidden='true'></i> SALVA CAMPO</button><button type='button' class='btn btn-danger btn-sm elimina_campo' data-idcampo='' ><i class='fa fa-trash-o' aria-hidden='true'></i> CANCELLA CAMPO</button></td>";
+		var nuovo_campo="<input type='hidden' name='id_azione' value='"+id_azione+"'><td name='descrizione'><input type='text' name='campo_descrizione' value='' class='form-control input-sm' /></td><td name='active'><input type='checkbox' name='a_active' value='1' class='a_active' /></td><td name='avvocato'><select name='a_avvocato' class='a_avvocato form-control input-sm' data-idavv='' style='width:350px; display:none'>{options}</select></td><td class='text-center'><button type='button' class='btn btn-success btn-sm salva_campo' data-idcampo='' style='margin: 0 4px 0 -1px;' ><i class='fa fa-pencil-square-o' aria-hidden='true'></i> SALVA CAMPO</button><button type='button' class='btn btn-danger btn-sm cancella_campo' data-idcampo='' ><i class='fa fa-trash-o' aria-hidden='true'></i> CANCELLA CAMPO</button></td>";
 		var close="</form></tr>";
 		var options="";
 		// uso variabile globale list_avvocati settata al caricamento della pagina
@@ -64,7 +64,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if (id_campo=="") {
 			// rest save campo
 			$.post('<?php echo site_url('azioni/save_campo'); ?>',dati,function(json){
-				alert(json);
+				var data = jQuery.parseJSON(json);
+				swal({ title: '', text: data.msg, type: data.type, timer: 2000});
 			});
 		}else{
 			// rest update campo

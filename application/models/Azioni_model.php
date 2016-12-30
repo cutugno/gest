@@ -7,7 +7,7 @@
 		}
 		
 		public function createAzione($dati) {
-			$query=$this->db->set('descrizione', $dati['descrizione'])
+			$query=$this->db->set('descrizione', $dati['descrizione'])							
 							->set('date_create', 'NOW()', FALSE)
 							->insert('azioni');
 			return $this->db->insert_id();

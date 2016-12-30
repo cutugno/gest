@@ -218,6 +218,32 @@ class Azioni extends CI_Controller {
 		if (!$this->input->post()) exit();	
 		$post=$this->input->post();
 		
+		if ($this->esiste_azione()) {
+			if (!$this->required_descr()) {
+				$echo=array("type"=>"warning","msg"=>$this->session->nodescr);
+				unset($_SESSION['nodescr']);
+			}else{
+				if ($post['id_avvocato']!=0) {
+					if (!$this->esiste_avvocato()) {
+						$echo=array("type"=>"warning","msg"=>$this->session->noesisteavvocato);
+						unset($_SESSION['noesisteavvocato']);
+					}										
+				}
+				$post['editabile']=$post['id_avvocato'];
+				if ($ins_id=$this->campi_model->saveCampo($post)) {
+					custom_log('Campo inserito con id '.$ins_id.'. Dati: '.json_encode($post));
+					$echo=array("type"=>"success","msg"=>"Campo inserito correttamente");	
+				}else{
+					custom_log('Errore inserimento campo. Dati: '.json_encode($post));	
+					$echo=array("type"=>"error","msg"=>"Errore inserimento campo");	
+				}
+			}
+		}else{
+			$echo=array("type"=>"warning","msg"=>$this->session->noesisteazione);
+			unset($_SESSION['noesisteazione']);
+		}	
+		
+		echo json_encode($echo);			
 	}
 	
 	// ------------------- funzioni validazione ------------------------
@@ -284,6 +310,16 @@ class Azioni extends CI_Controller {
 		if (!$this->avvocati_model->getAvvocatoByID($post['id_avvocato'])) {
 			custom_log('Errore avvocato inesistente. Dati: '.json_encode($post));
 			$this->session->set_flashdata('noesisteavvocato','Avvocato inesistente. ');
+			return FALSE;
+		}
+		return TRUE;
+	}
+	
+	public function esiste_azione() {
+		$post=$this->input->post();
+		if (!$this->azioni_model->getAzioneByID($post['id_azione'])) {
+			custom_log('Errore azione inesistente. Dati: '.json_encode($post));
+			$this->session->set_flashdata('noesisteazione','Azione inesistente. ');
 			return FALSE;
 		}
 		return TRUE;

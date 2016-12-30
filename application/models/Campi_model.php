@@ -24,6 +24,15 @@
 			return $this->db->affected_rows();
 		}
 		
+		public function saveCampo($dati) {
+			$query=$this->db->set('descrizione', $dati['descrizione'])
+							->set('editabile', $dati['editabile'])
+							->set('id_azioni', $dati['id_azione'])
+							->set('date_create', 'NOW()', FALSE)
+							->insert('campi');
+			return $this->db->insert_id();
+		}
+		
 		public function updateCampo($dati) {
 			$query=$this->db->set('descrizione', $dati['descrizione'])
 							->set('editabile', $dati['editabile'])
