@@ -33,17 +33,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php endforeach ?>
 								</tr>
 							</thead>
-							<tbody>								
-								<?php var_dump ($campi); ?>   
-								<?php foreach ($campi as $val) : ?>
-								<tr>
-									<?php for ($x=0;$x<count($val->record);$x++) : ?>
-									<td>
-										<?php var_dump ($val->record[$x]); ?>
-									</td>
-									<?php endfor ?>
-								</tr>        
-								<?php endforeach ?>
+							<tbody>		
+								<?php $righe=count($record) / count($campi); $n=0; ?>
+								<?php for ($x=0;$x<$righe;$x++) : ?>														
+								<tr data-idrecord=<?php echo $x ?>>
+									<?php foreach ($campi as $campo) : ?>
+									<!-- se sono admin infilo il valore in un input -->
+									<!-- se non sono admin infilo il valore in un input solo se record[$n]->id_editor = mio id -->
+									<td data-idcampo=<?php echo $campo->id ?>><?php echo $record[$n]->valore; $n++; ?></td>
+									<?php endforeach ?>
+								</tr>
+								<?php endfor ?>
 							</tbody>
 						</table>                            
 					</div>

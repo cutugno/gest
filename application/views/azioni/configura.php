@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											$data = array(
 													'name'          => 'campo_descrizione',
 													'class'			=> 'form-control input-sm',
-													'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descrizione[]')
+													'value'	=> isset($campo->descrizione) ? $campo->descrizione : set_value('campo_descrizione')
 											);
 											echo form_input($data);				
 										?>

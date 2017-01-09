@@ -12,6 +12,8 @@
 							->join('azioni','campi.id_azioni=azioni.id')
 							->join('avvocati','record.id_editor=avvocati.id','LEFT')
 							->where('azioni.id',$id_azione)
+							->order_by('id_record','ASC')
+							->order_by('id_campi','ASC')
 							->get('record');
 			return $query->result();
 		}

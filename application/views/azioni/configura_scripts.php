@@ -64,9 +64,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if (id_campo=="") {
 			// rest save campo
 			$.post('<?php echo site_url('azioni/save_campo'); ?>',dati,function(json){
+				console.log(json);
 				var data = jQuery.parseJSON(json);
 				swal({ title: '', text: data.msg, type: data.type, timer: 2000});
-			});
+				questo.html('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> AGGIORNA CAMPO');
+				questo.attr("data-idcampo",data.insid);
+			});			
 		}else{
 			// rest update campo
 			$.post('<?php echo site_url('azioni/update_campo'); ?>',dati,function(json){

@@ -143,12 +143,6 @@ class Azioni extends CI_Controller {
 				
 		// elenco campi 
 		$campi=$this->campi_model->getAzioneCampi($id_azione);
-		$arraycampi=array();
-		foreach ($campi as $val) {
-			$val->record=array(); // qui andranno i record per ogni campo, vedi sotto
-			$arraycampi[$val->id]=$val;
-		}
-		//var_dump ($arraycampi);
 		
 		// elenco record
 		$record=$this->record_model->getAzioneRecord($id_azione);
@@ -156,15 +150,10 @@ class Azioni extends CI_Controller {
 			$record[$key]->date_create=($val->date_create!=NULL) ? convertDateTime($val->date_create,0) : "-";
 			$record[$key]->date_edit=($val->date_edit!=NULL) ? convertDateTime($val->date_edit,0) : "-";
 			$record[$key]->avvocato=($val->id_avvocato!=NULL) ? $val->cognome.", ".$val->nome : "";
-			// suddivido i record per ogni campo inserendoli all'interno dell'elemento ->record creato in precedenza dell'array corrispondente di $campi
-			array_push($arraycampi[$val->id_campi]->record,$val); 
 		}
-		
-		
-		
 
 		$data['azione']=$azione;
-		$data['campi']=$arraycampi;
+		$data['campi']=$campi;
 		$data['record']=$record;
 		
 		$this->load->view('common/open');
@@ -172,7 +161,7 @@ class Azioni extends CI_Controller {
 		$this->load->view('azioni/record',$data);
 		$this->load->view('common/scripts');
 		$this->load->view('azioni/swal');
-		//$this->load->view('azioni/configura_scripts');
+		//$this->load->view('azioni/record_scripts');
 		$this->load->view('common/close');
 		
 	}
@@ -274,9 +263,10 @@ class Azioni extends CI_Controller {
 					}										
 				}
 				$post['editabile']=$post['id_avvocato'];
+				// controllo se azione ha già un campo con questa campo_descrizione
 				if ($ins_id=$this->campi_model->saveCampo($post)) {
 					custom_log('Campo inserito con id '.$ins_id.'. Dati: '.json_encode($post));
-					$echo=array("type"=>"success","msg"=>"Campo inserito correttamente");	
+					$echo=array("type"=>"success","msg"=>"Campo inserito correttamente","insid"=>$ins_id);	
 				}else{
 					custom_log('Errore inserimento campo. Dati: '.json_encode($post));	
 					$echo=array("type"=>"error","msg"=>"Errore inserimento campo");	
@@ -335,6 +325,10 @@ class Azioni extends CI_Controller {
 			return FALSE;
 		}
 		return TRUE;
+	}
+	
+	public function duplicate_campo() {
+		
 	}
 	
 	public function esiste_avvocato() {
